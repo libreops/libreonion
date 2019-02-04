@@ -14,13 +14,19 @@
     state: present
     update_cache: yes
 
-- name: Install tor
+- name: Install tor and Unbound
   apt: name={{ item }} state=present
   with_items:
     - tor
     - deb.torproject.org-keyring
+    - unbound
 
-- name: Tor configuration
+- name: Make resolv.conf mutable
+  file:
+    path: /etc/resolv.conf
+    attributes: e
+
+- name: Set Tor and Unbound configuration
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -32,6 +38,15 @@
       src: "torrc.j2",
       dest: "/etc/tor/torrc"
       }
+    - {
+      src: "resolv.conf.j2",
+      dest: "/etc/resolv.conf"
+      }
+
+- name: Make resolv.conf immutable
+  file:
+    path: /etc/resolv.conf
+    attributes: ie
 
 - name: Restart tor
   become: yes
