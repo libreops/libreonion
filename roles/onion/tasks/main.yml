@@ -1,0 +1,38 @@
+---
+# tasks file for onion relay
+
+- name: Add torproject gpg key
+  apt_key:
+    data: "{{ lookup('file', 'torproject.asc') }}"
+    id: A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
+    state: present
+
+- name: Add torproject repository
+  become: yes
+  apt_repository:
+    repo: 'deb https://deb.torproject.org/torproject.org {{ ansible_lsb.codename }} main'
+    state: present
+    update_cache: yes
+
+- name: Install tor
+  apt: name={{ item }} state=present
+  with_items:
+    - tor
+    - deb.torproject.org-keyring
+
+- name: Tor configuration
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - {
+      src: "torrc.j2",
+      dest: "/etc/tor/torrc"
+      }
+
+- name: Restart tor
+  become: yes
+  service: name=tor@default state=restarted

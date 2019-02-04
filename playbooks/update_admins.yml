@@ -1,0 +1,11 @@
+---
+- name: Update admins
+  hosts: all
+  become: true
+  gather_facts: false
+
+  vars_files:
+    - ../private.yml
+
+  tasks:
+    - authorized_key: user="{{ ansible_user }}" state=present exclusive=yes key="{{ admins|join('\n') }}"

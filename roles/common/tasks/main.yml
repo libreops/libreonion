@@ -1,0 +1,34 @@
+---
+# tasks file for common
+- include_vars: private.yml
+
+- name: Install system dependencies
+  apt: name={{ item }} state=present
+  with_items:
+    - vim
+    - bash-completion
+    - mlocate
+    - apt-transport-https
+    - unattended-upgrades
+    - apt-listchanges
+    - lsb-release
+
+- name: Set hostname
+  hostname: name={{ inventory_hostname }}
+
+- name: Unattended updates
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - {
+      src: "50unattended-upgrades.j2",
+      dest: "/etc/apt/apt.conf.d/50unattended-upgrades"
+      }
+    - {
+      src: "20auto-upgrades.j2",
+      dest: "/etc/apt/apt.conf.d/20auto-upgrades"
+      }
