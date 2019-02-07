@@ -1,6 +1,6 @@
 <img src="resources/logo.png" width="150">
 
-Ansible scripts for <a href="https://libreops.cc">LibreOps</a> Tor relays.
+Ansible scripts for <a href="https://libreops.cc/tor/">LibreOps Tor relays</a>.
 
 ## Requirements
 
