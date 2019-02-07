@@ -20,6 +20,8 @@
     - tor
     - deb.torproject.org-keyring
     - unbound
+    - vnstat
+    - vnstati
 
 - name: Make resolv.conf mutable
   file:
@@ -42,6 +44,25 @@
       src: "resolv.conf.j2",
       dest: "/etc/resolv.conf"
       }
+
+- name: Set vnstat script
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - {
+      src: "vnstati.sh.j2",
+      dest: "/usr/local/bin/vnstati.sh"
+      }
+
+- name: Set vnstat cron
+  file:
+    src: "/usr/local/bin/vnstati.sh"
+    dest: "/etc/cron.hourly/vnstati"
+    state: link
 
 - name: Make resolv.conf immutable
   file:

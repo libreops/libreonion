@@ -1,0 +1,7 @@
+#!/bin/bash
+mkdir -p /tmp/vnstat
+vnstati -h --config /etc/vnstat.conf -o /tmp/vnstat/h.png
+vnstati -m --config /etc/vnstat.conf -o /tmp/vnstat/m.png
+vnstati -d --config /etc/vnstat.conf -o /tmp/vnstat/d.png
+vnstati -s --config /etc/vnstat.conf -o /tmp/vnstat/s.png
+vnstati -t --config /etc/vnstat.conf -o /tmp/vnstat/t.png
