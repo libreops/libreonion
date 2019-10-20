@@ -4,6 +4,6 @@ ORPort [{{ hostvars[inventory_hostname].ipv6 }}]:443
 ExitRelay 0
 SocksPort 0
 ControlSocket 0
-RelayBandwidthRate 50 MBytes
-RelayBandwidthBurst 100 MBytes
+RelayBandwidthRate 10 MBytes
+RelayBandwidthBurst 12 MBytes
 ContactInfo {{ tor_contact }}
